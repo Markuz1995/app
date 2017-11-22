@@ -5,10 +5,48 @@
     <title></title>
   </head>
   <body>
-    <form class="" action="index.html" method="post">
-      <input type="time" name="" value="">
-      <input type="submit" name="" value="Enviar">
-    </form>
+    <h1>Hola novatoo</h1>
+    <br>
+
+    <input type="button" id="btn" value="mostrar conexion" onclick="baseDatos(listar)">
+
+
+
+    <!-- **********************************************************************************************
+    ********************************************************************************************** -->
+    <script>require('./index.js')</script>
+    <script>
+      var mysql = require("mysql");
+      var connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: null,
+        database: "recordatorio"
+      });
+
+      connection.connect((err) => {
+        if (err) {
+          return console.log(err,stack);
+        }
+
+        console.log("se conecto esta joda");
+      });
+
+
+      $queryString = "SELECT * FROM usuarios;";
+      connection.query($queryString, (err, rows,fields)=>{
+        if (err) {
+          return console.log("hubo un error",err);
+        }
+
+        console.log(rows);
+      });
+
+
+      connection.end(() => {
+        console.log("conexion cerrada");
+      });
+    </script>
 
   </body>
 </html>
