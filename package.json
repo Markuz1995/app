@@ -1,11 +1,10 @@
 {
-  "name": "prueba",
+  "name": "electronbd",
   "version": "1.0.0",
   "description": "",
-  "main": "",
+  "main": "index.js",
   "scripts": {
-    "start": "electron main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron main.js"
   },
   "author": "",
   "license": "ISC",
