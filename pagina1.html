@@ -24,11 +24,11 @@
 
     <!-- **********************************************************************************************
     ********************************************************************************************** -->
-    <script>window.$ = window.jQuery = require('./jquery-3.2.1.min.js');</script>
+    <script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
     <script>
 
       $('#crear').on('click',function(){
-        $.getScript('./conexion.js', function()
+        $.getScript('./js/conexion.js', function()
         {
           var cedula = $('#cedula').val();
           var nombre = $('#nombre').val();
