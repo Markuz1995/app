@@ -13,8 +13,8 @@
     ********************************************************************************************** -->
     <script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
     <script>require('./js/index.js')</script>
-
     <script>
+
       $.getScript('./js/conexion.js', function(){
         $queryString = "SELECT * FROM usuarios;";
         connection.query($queryString, (err, rows,fields)=>{
@@ -34,7 +34,7 @@
           console.log("conexion cerrada");
         });
       });
-    </script>
 
+    </script>
   </body>
 </html>
