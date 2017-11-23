@@ -8,43 +8,31 @@
     <h1>Hola novatoo</h1>
     <br>
 
-    <input type="button" id="btn" value="mostrar conexion" onclick="baseDatos(listar)">
-
-
 
     <!-- **********************************************************************************************
     ********************************************************************************************** -->
+    <script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
     <script>require('./js/index.js')</script>
+
     <script>
-      var mysql = require("mysql");
-      var connection = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: null,
-        database: "recordatorio"
-      });
+      $.getScript('./js/conexion.js', function(){
+        $queryString = "SELECT * FROM usuarios;";
+        connection.query($queryString, (err, rows,fields)=>{
+          if (err) {
+            return console.log("hubo un error",err);
+          }
+          var datos = JSON.stringify(rows);
+          var obj = JSON.parse(datos);
 
-      connection.connect((err) => {
-        if (err) {
-          return console.log(err,stack);
-        }
-
-        console.log("se conecto esta joda");
-      });
+          for(i=0;i<obj.length;i++){
+            alert(obj[i]['cedula']);
+          }
+        });
 
 
-      $queryString = "SELECT * FROM usuarios;";
-      connection.query($queryString, (err, rows,fields)=>{
-        if (err) {
-          return console.log("hubo un error",err);
-        }
-
-        console.log(rows);
-      });
-
-
-      connection.end(() => {
-        console.log("conexion cerrada");
+        connection.end(() => {
+          console.log("conexion cerrada");
+        });
       });
     </script>
 
