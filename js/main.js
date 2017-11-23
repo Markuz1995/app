@@ -23,4 +23,12 @@ exports.openWindow =() => {
     slashes: true
   }))
 }
+exports.openWindow2 =() => {
+  let newWin = new BrowserWindow ({width: 600, height:400})
+  newWin.loadURL(url.format({
+    pathname: path.join(__dirname,'../listar.html'),
+    protocol: 'file',
+    slashes: true
+  }))
+}
 app.on('ready', createWindow)

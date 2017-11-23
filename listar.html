@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="node_modules/datatables/jquery.dataTables.min.js" charset="utf-8"></script>
+    <script src="node_modules/datatables/jquery.dataTables.min.js" charset="utf-8"></script>
+    <script src="node_modules/datatables/dataTables.bootstrap.min.js" charset="utf-8"></script>
+
+
+    <script type="text/javascript">
+    $(function () {
+      $('table.display').dataTable( {
+          "language":{
+          "sProcessing":     "Procesando...",
+          "sLengthMenu":     "Mostrar _MENU_ registros",
+          "sZeroRecords":    "No se encontraron resultados",
+          "sEmptyTable":     "Ningún dato disponible en esta tabla",
+          "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+          "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+          "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+          "sInfoPostFix":    "",
+          "sSearch":         "Buscar:",
+          "sUrl":            "",
+          "sInfoThousands":  ",",
+          "sLoadingRecords": "Cargando...",
+          "oPaginate": {
+              "sFirst":    "Primero",
+              "sLast":     "Último",
+              "sNext":     "Siguiente",
+              "sPrevious": "Anterior"
+          },
+          "oAria": {
+              "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+              "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+          }
+          },
+                "scrollX": true
+
+          } );
+        });
+
+    </script>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Hola novatoo</h1>
+    <br>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 well">
+          <br>
+          <div class="box-body">
+            <table id="tabla" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>Hora</th>
+                  <th>Día</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                  </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- **********************************************************************************************
+    ********************************************************************************************** -->
+    <script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
+    <script>require('./js/index.js')</script>
+    <script>
+
+      $.getScript('./js/conexion.js', function(){
+        $queryString = "SELECT * FROM recordatorios;";
+        connection.query($queryString, (err, rows,fields)=>{
+          if (err) {
+            return console.log("hubo un error",err);
+          }
+          var datos = JSON.stringify(rows);
+          var obj = JSON.parse(datos);
+
+          for(i=0;i<obj.length;i++){
+            $('#tabla tr:last').after('<tr><td>'+obj[i]['hora']+'</td><td>'+obj[i]['dia']+'</td><td>'+obj[i]['descripcion']+'</td></tr>');
+          }
+        });
+
+        connection.end(() => {
+          console.log("conexion cerrada");
+        });
+      });
+
+    </script>
+
+    <script type="text/javascript">
+      const remote = require('electron').remote
+      const main = remote.require('./main.js')
+
+      var agregar=document.getElementById('a')
+
+      agregar.addEventListener('click', () => {
+        main.openWindow()
+      })
+    </script>
+  </body>
+</html>
