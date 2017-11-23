@@ -18,7 +18,7 @@
       <input type="text" id="descripcion" value="">
       <br>
       <br>
-      <input type="button" id="crear" value="CREAR">
+      <input type="button" id="crear" value="CREAR" >
     </form>
 
 
@@ -40,7 +40,7 @@
               return console.log("hubo un error",err);
             }
 
-            console.log(rows);
+            self.close()
           });
 
           connection.end(() => {
