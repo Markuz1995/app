@@ -90,7 +90,7 @@
     <script>
 
       $.getScript('./js/conexion.js', function(){
-        $queryString = "SELECT * FROM usuarios;";
+        $queryString = "SELECT * FROM recordatorios;";
         connection.query($queryString, (err, rows,fields)=>{
           if (err) {
             return console.log("hubo un error",err);

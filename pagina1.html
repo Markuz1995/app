@@ -8,14 +8,14 @@
     <p>hola</p>
 
     <form class="" action="" method="">
-      <label for="cedula">CEDULA</label>
-      <input type="text" id="cedula" value="">
+      <label for="hora">hora</label>
+      <input type="text" id="hora" value="">
       <br>
-      <label for="cedula">nombre</label>
-      <input type="text" id="nombre" value="">
+      <label for="dia">dia</label>
+      <input type="text" id="dia" value="">
       <br>
-      <label for="cedula">apellido</label>
-      <input type="text" id="apellido" value="">
+      <label for="descripcion">descripcion</label>
+      <input type="text" id="descripcion" value="">
       <br>
       <br>
       <input type="button" id="crear" value="CREAR">
@@ -30,11 +30,11 @@
       $('#crear').on('click',function(){
         $.getScript('./js/conexion.js', function()
         {
-          var cedula = $('#cedula').val();
-          var nombre = $('#nombre').val();
-          var apellido = $('#apellido').val();
+          var hora = $('#hora').val();
+          var dia = $('#dia').val();
+          var descripcion = $('#descripcion').val();
 
-          $queryString = "INSERT INTO usuarios (cedula, nombre,apellido) VALUES ('"+cedula+"', '"+nombre+"','"+apellido+"')";
+          $queryString = "INSERT INTO recordatorios (hora, dia,descripcion) VALUES ('"+hora+"', '"+dia+"','"+descripcion+"')";
           connection.query($queryString, (err, rows,fields)=>{
             if (err) {
               return console.log("hubo un error",err);
