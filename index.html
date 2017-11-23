@@ -52,26 +52,19 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12 well">
+          <a href="" class="btn btn-primary" id="a" ><i class="fa fa-user-plus"></i> Crear Recordatorio</a>
+          <br>
           <div class="box-body">
-            <table id="example1" class="table table-bordered table-striped">
+            <table id="tabla" class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>Cédula</th>
-                  <th>Nombres</th>
-                  <th>Apellidos</th>
-                  <th>Email</th>
-                  <th>Rol</th>
-                  <th>Acciones</th>
+                  <th>Hora</th>
+                  <th>Día</th>
+                  <th>Descripción</th>
                 </tr>
               </thead>
               <tbody>
                   <tr>
-                    <td>hjm</td>
-                    <td>fvfv</td>
-                    <td>fvfv</td>
-                    <td>fvfvfv</td>
-                    <td>fvfv</td>
-                    <td>fvfv</td>
                   </tr>
 
               </tbody>
@@ -99,7 +92,7 @@
           var obj = JSON.parse(datos);
 
           for(i=0;i<obj.length;i++){
-            alert(obj[i]['cedula']);
+            $('#tabla tr:last').after('<tr><td>'+obj[i]['hora']+'</td><td>'+obj[i]['dia']+'</td><td>'+obj[i]['descripcion']+'</td></tr>');
           }
         });
 
@@ -108,6 +101,17 @@
         });
       });
 
+    </script>
+
+    <script type="text/javascript">
+      const remote = require('electron').remote
+      const main = remote.require('./main.js')
+
+      var agregar=document.getElementById('a')
+
+      agregar.addEventListener('click', () => {
+        main.openWindow()
+      })
     </script>
   </body>
 </html>

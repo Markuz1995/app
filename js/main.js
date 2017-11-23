@@ -16,9 +16,9 @@ function createWindow(){
  }))
 }
 exports.openWindow =() => {
-  let newWin = new BrowserWindow ({width: 400, height:200})
+  let newWin = new BrowserWindow ({width: 600, height:400})
   newWin.loadURL(url.format({
-    pathname: path.join(__dirname,'pagina1.html'),
+    pathname: path.join(__dirname,'../pagina1.html'),
     protocol: 'file',
     slashes: true
   }))
