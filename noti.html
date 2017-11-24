@@ -18,31 +18,35 @@
           const notifier = require('node-notifier')
           const path = require('path');
 
+          function alerta(){
+            notifier.notify ({
+               title: 'My awesome title',
+               message: 'Hello from electron, Mr. User!',
+               // icon: path.join('','/home/ayushgp/Desktop/images.png'),  // Absolute path
+               sound: true,  // Only Notification Center or Windows Toasters
+               wait: false    // Wait with callback, until user action is take
+
+            }, function (err, response) {
+               // Response is response from notification
+            });
+
+            notifier.on('click', function (notifierObject, options) {
+               console.log("You clicked on the notification")
+            });
+
+            notifier.on('timeout', function (notifierObject, options) {
+               console.log("Notification timed out!")
+            });
+
+          }
 
           setInterval(function(){
             var time = new Date();
             time = time.toLocaleTimeString('en-US', {hour12: true})
             var tiempo = time.toString()
-            if (tiempo == '7:50:10 AM') {
-              notifier.notify ({
-                 title: 'My awesome title',
-                 message: 'Hello from electron, Mr. User!',
-                 // icon: path.join('','/home/ayushgp/Desktop/images.png'),  // Absolute path
-                 sound: true,  // Only Notification Center or Windows Toasters
-                 wait: false    // Wait with callback, until user action is take
 
-              }, function (err, response) {
-                 // Response is response from notification
-              });
-
-              notifier.on('click', function (notifierObject, options) {
-                 console.log("You clicked on the notification")
-              });
-
-              notifier.on('timeout', function (notifierObject, options) {
-                 console.log("Notification timed out!")
-              });
-
+            if (tiempo == '8:31:50 AM') {
+              alerta()
             }else{
               console.log('aun no');
             }
