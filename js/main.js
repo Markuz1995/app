@@ -10,7 +10,7 @@ let win //variable global
 function createWindow(){
  win = new BrowserWindow ({width: 800, height:600, icon:__dirname + '/poke.ico'})
  win.loadURL(url.format({
-   pathname: path.join(__dirname,'../index.html'),
+   pathname: path.join(__dirname,'../noti.html'),
    protocol: 'file',
    slashes: true
  }))
