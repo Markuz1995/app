@@ -8,6 +8,8 @@
   <body>
     <button type="button" class="btn btn-primary" name="button" id="crear">Crear recordatrio</button>
     <button type="button" class="btn btn-primary" name="button" id="ver">Ver recordatorios</button>
+
+    <script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
     <script type="text/javascript">
       const remote = require('electron').remote
       const main = remote.require('./main.js')
@@ -22,6 +24,85 @@
       ver.addEventListener('click', () => {
         main.openWindow2()
       })
+    </script>
+    <script type = "text/javascript">
+       const notifier = require('node-notifier')
+       const path = require('path');
+
+       var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+       var f=new Date();
+       var hoy = diasSemana[f.getDay()];
+       $.getScript('./js/conexion.js', function(){
+
+         $queryString = "SELECT * FROM recordatorios WHERE dia ='"+hoy+"' ;";
+
+         console.log($queryString);
+         connection.query($queryString, (err, rows,fields)=>{
+           if (err) {
+             return console.log("hubo un error",err);
+           }
+
+           var datos = JSON.stringify(rows);
+           var obj = JSON.parse(datos);
+
+           function alerta(hoy,hora,descripcion){
+            var h = hoy;
+            var hor = hora;
+            var des = descripcion;
+             notifier.notify ({
+                title: 'Q onda!!',
+                message: 'Hoy es '+h+' '+hor+' '+des,
+                icon: path.join('','poke.ico'),  // Absolute path
+                sound: true,  // Only Notification Center or Windows Toasters
+                wait: true    // Wait with callback, until user action is take
+
+             }, function (err, response) {
+                // Response is response from notification
+             });
+
+             notifier.on('click', function (notifierObject, options) {
+                console.log("You clicked on the notification")
+             });
+
+             notifier.on('timeout', function (notifierObject, options) {
+                console.log("Notification timed out!")
+             });
+
+
+           }
+
+           for(i=0;i<obj.length;i++){
+             var dia = obj[i]['dia'];
+             var hora = obj[i]['hora'];
+             var descripcion = obj[i]['descripcion'];
+
+
+             // setInterval(function(){
+               // var time = new Date();
+               // time = time.toLocaleTimeString('en-US', {hour12: true})
+               // var tiempo = time.toString()
+               // var dat ='9:04:00 AM';
+
+               // if (dat == '09:04:00 AM') {
+                 alerta(dia,hora,descripcion)
+               // }else{
+               //   console.log('aun no');
+               // }
+             // } , 5000);
+
+           }
+
+         });
+
+         connection.end(() => {
+           console.log("conexion cerrada");
+         });
+       });
+
+
+
+
+
     </script>
   </body>
 </html>
