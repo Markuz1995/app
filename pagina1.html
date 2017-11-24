@@ -28,11 +28,19 @@
     <script>
 
       $('#crear').on('click',function(){
+
+
+
+
         $.getScript('./js/conexion.js', function()
         {
-          var hora = $('#hora').val();
           var dia = $('#dia').val();
           var descripcion = $('#descripcion').val();
+          t = document.getElementById('hora').value
+          h = t.substr(0,2);
+          ms = t.substr(2)
+          ampm = ((h%12+12*(h%12==0))+ms, h >= 12 ? 'PM' : 'AM')
+          hora = t+':00 '+ampm
 
           $queryString = "INSERT INTO recordatorios (hora, dia,descripcion) VALUES ('"+hora+"', '"+dia+"','"+descripcion+"')";
           connection.query($queryString, (err, rows,fields)=>{
