@@ -10,13 +10,13 @@
       <input type="time" id="hora" value="">
       <br>
       <label for="dia">dia</label>
-      <label class="radio-inline"><input type="radio" name="dia" value="Lunes">Lunes</label>
-      <label class="radio-inline"><input type="radio" name="dia" value="Martes">Martes</label>
-      <label class="radio-inline"><input type="radio" name="dia" value="Miercoles">Miercoles</label>
-      <label class="radio-inline"><input type="radio" name="dia" value="Jueves">Jueves</label>
-      <label class="radio-inline"><input type="radio" name="dia" value="Viernes">Viernes</label>
-      <label class="radio-inline"><input type="radio" name="dia" value="Sabado">Sabado</label>
-      <label class="radio-inline"><input type="radio" name="dia" value="Domingo">Domingo</label>
+      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Lunes">Lunes</label>
+      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Martes">Martes</label>
+      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Miercoles">Miercoles</label>
+      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Jueves">Jueves</label>
+      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Viernes">Viernes</label>
+      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Sabado">Sabado</label>
+      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Domingo">Domingo</label>
       <br>
       <label for="descripcion">descripcion</label>
       <input type="text" id="descripcion" value="">
@@ -38,7 +38,12 @@
 
         $.getScript('./js/conexion.js', function()
         {
-          var dia = $('#dia').val();
+          var favorite = [];
+            $.each($("input[name='dia']:checked"), function(){
+                favorite.push($(this).val());
+            });
+
+
           var descripcion = $('#descripcion').val();
           t = document.getElementById('hora').value
           h = t.substr(0,2);
@@ -46,7 +51,7 @@
           ampm = ((h%12+12*(h%12==0))+ms, h >= 12 ? 'PM' : 'AM')
           hora = t+':00 '+ampm
 
-          $queryString = "INSERT INTO recordatorios (hora, dia,descripcion) VALUES ('"+hora+"', '"+dia+"','"+descripcion+"')";
+          $queryString = "INSERT INTO recordatorios (hora, dia,descripcion) VALUES ('"+hora+"', '"+favorite.join(", ")+"','"+descripcion+"')";
           connection.query($queryString, (err, rows,fields)=>{
             if (err) {
               return console.log("hubo un error",err);
