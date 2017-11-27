@@ -25,16 +25,20 @@
         main.openWindow2()
       })
     </script>
-    <script type = "text/javascript">
-       const notifier = require('node-notifier')
-       const path = require('path');
+    <script type="text/javascript">
+       // const notifier = require('node-notifier')
+       // const path = require('path');
 
-       var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
+       // const remote = require('electron').remote
+       // const main = remote.require('./main.js')
+      const notifier = require('electron-notifications')
+
+       var diasSemana = new Array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
        var f=new Date();
        var hoy = diasSemana[f.getDay()];
        $.getScript('./js/conexion.js', function(){
 
-         $queryString = "SELECT * FROM recordatorios WHERE dia ='"+hoy+"' ;";
+         $queryString = "SELECT * FROM recordatorios WHERE dia ='"+hoy+"';";
 
          console.log($queryString);
          connection.query($queryString, (err, rows,fields)=>{
@@ -44,64 +48,61 @@
 
            var datos = JSON.stringify(rows);
            var obj = JSON.parse(datos);
+           var repe = 1000;
+             setInterval(function(){
 
-           function alerta(hoy,hora,descripcion){
-            var h = hoy;
-            var hor = hora;
-            var des = descripcion;
-             notifier.notify ({
-                title: 'Q onda!!',
-                message: 'Hoy es '+h+' '+hor+' '+des,
-                icon: path.join('','poke.ico'),  // Absolute path
-                sound: true,  // Only Notification Center or Windows Toasters
-                wait: true    // Wait with callback, until user action is take
+               function alerta(dia,hora,descripcion){
+                 var dia = dia;
+                 var hora = hora;
+                 var descripcion = descripcion;
 
-             }, function (err, response) {
-                // Response is response from notification
-             });
+                 const notification = notifier.notify('Calendar', {
+                   buttons: ['Abrir'],
+                   url: "http://google.com",
+                   duration:60000,
+                 })
 
-             notifier.on('click', function (notifierObject, options) {
-                console.log("You clicked on the notification")
-             });
+                 notification.on('buttonClicked', (text, buttonIndex, options) => {
+                   if (text === 'Abrir') {
+                     console.log('abrio');
+                     main.openWindow()
+                     notification.close()
+                   } else if(buttonIndex === 1) {
+                     //open options.url
+                   }
 
-             notifier.on('timeout', function (notifierObject, options) {
-                console.log("Notification timed out!")
-             });
+                 })
+               }
+               for(i=0;i<obj.length;i++){
+
+                 var dia = obj[i]['dia'];
+                 var hora = obj[i]['hora'];
+                 var descripcion = obj[i]['descripcion'];
+
+                 var time = new Date();
+                 var time2 = time.toLocaleTimeString('en-US', {hour12: true})
+                 var tiempo = time2.toString()
+
+                 if (tiempo === '10:39:00 AM') {
+                   alerta(dia,hora,descripcion)
+                 }else{
+
+                 }
+               }
+
+             } , 1000);
 
 
-           }
+          // Just title
+          // notifier.notify('Calendar')
 
-           for(i=0;i<obj.length;i++){
-             var dia = obj[i]['dia'];
-             var hora = obj[i]['hora'];
-             var descripcion = obj[i]['descripcion'];
-
-
-             // setInterval(function(){
-               // var time = new Date();
-               // time = time.toLocaleTimeString('en-US', {hour12: true})
-               // var tiempo = time.toString()
-               // var dat ='9:04:00 AM';
-
-               // if (dat == '09:04:00 AM') {
-                 alerta(dia,hora,descripcion)
-               // }else{
-               //   console.log('aun no');
-               // }
-             // } , 5000);
-
-           }
-
+          // Full Options
          });
 
          connection.end(() => {
            console.log("conexion cerrada");
          });
        });
-
-
-
-
 
     </script>
   </body>

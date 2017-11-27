@@ -7,7 +7,7 @@
   <body>
 
        <button type = "button" id = "notify" name = "button">
-          Click here to trigger a notification!
+          Hola compañeritos ADSI 110
         </button>
 
       <script language="javascript">
@@ -20,11 +20,11 @@
 
           function alerta(){
             notifier.notify ({
-               title: 'My awesome title',
-               message: 'Hello from electron, Mr. User!',
+               title: 'Q onda!!',
+               message: 'Hola compañeritos ADSI 110',
                // icon: path.join('','/home/ayushgp/Desktop/images.png'),  // Absolute path
                sound: true,  // Only Notification Center or Windows Toasters
-               wait: false    // Wait with callback, until user action is take
+               wait: true    // Wait with callback, until user action is take
 
             }, function (err, response) {
                // Response is response from notification
@@ -44,13 +44,14 @@
             var time = new Date();
             time = time.toLocaleTimeString('en-US', {hour12: true})
             var tiempo = time.toString()
+            var dat ='9:04:00 AM';
 
-            if (tiempo == '8:31:50 AM') {
+            if (dat == '9:04:00 AM') {
               alerta()
             }else{
               console.log('aun no');
             }
-          } , 1000);
+          } , 5000);
 
 
 
