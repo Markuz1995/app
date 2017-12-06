@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">	
+</head>
+<body>
+
+	<center>
+
+		<h1>REVISADO</h1>
+		<form action="" method="" accept-charset="utf-8">			
+			<input type="radio" id="Si" name="revisado" value="Si" />Si
+			<input type="radio" id="No" name="revisado" value="No"/>No	
+			<br>
+			<br>
+			<input type="button" class="btn btn-primary" id="enviar" name="regitrar" value="Registrar">	
+		</form>
+		
+	</center>
+
+
+
+	<script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
+
+	<script type="text/javascript">
+		 
+	</script>
+	<script type="text/javascript">	
+		var id = '';
+		require('electron').ipcRenderer.on('ping', function(event, message) {
+			id = message.toString();
+
+		});
+		$('#enviar').on('click',function(){
+
+			var valor = $('input:radio[name=revisado]:checked').val();
+			 	
+			 
+			 $.getScript('./js/conexion.js', function(){
+
+			 	$queryString = "UPDATE recordatorios SET realizado='"+valor+"' WHERE id='"+id+"'";
+					
+			         console.log($queryString);
+
+		        connection.query($queryString, (err, rows,fields)=>{
+		           if (err) {
+		             return console.log("hubo un error",err);
+		           }else{
+			 		alert('Registro Modificado');
+			 		window.close();
+		           }
+				});
+			 	
+			 });
+		});
+	</script>
+
+</body>
+</html>

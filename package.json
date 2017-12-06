@@ -2,17 +2,45 @@
   "name": "electronbd",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./js/main.js",
   "scripts": {
-    "start": "electron ./js/main.js"
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
+  "license": "MIT",
+  "build": {
+    "appId": "electronv1",
+    "asar": true,
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icono.ico"
+    }
+  },
+  "devDependencies": {
     "bootstrap": "^3.3.7",
     "electron": "^1.7.9",
+    "electron-builder": "^19.47.1",
     "electron-notifications": "^1.0.0",
     "electron-windows-notifications": "^1.1.16",
     "mysql": "^2.15.0"
+  },
+  "dependencies": {
+    "pretty-bytes": "^4.0.2"
   }
 }

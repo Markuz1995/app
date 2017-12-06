@@ -3,26 +3,42 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">    
   </head>
   <body>
     <form class="" action="" method="">
-      <label for="hora">hora</label>
-      <input type="time" id="hora" value="">
-      <br>
-      <label for="dia">dia</label>
-      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Lunes">Lunes</label>
-      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Martes">Martes</label>
-      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Miercoles">Miercoles</label>
-      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Jueves">Jueves</label>
-      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Viernes">Viernes</label>
-      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Sabado">Sabado</label>
-      <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Domingo">Domingo</label>
-      <br>
-      <label for="descripcion">descripcion</label>
-      <input type="text" id="descripcion" value="">
-      <br>
-      <br>
-      <input type="button" id="crear" value="CREAR" >
+      <div class="row">
+        <div class="col-md-12 well">
+          <div class="form-group">
+          <label for="hora">hora</label>
+          <input type="time" class="form-control" id="hora" value="">  
+        </div>
+        <br>
+        <div class="form-group">        
+          <label for="dia">dia</label>
+          <br>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Lunes">Lunes</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Martes">Martes</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Miercoles">Miercoles</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Jueves">Jueves</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Viernes">Viernes</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Sabado">Sabado</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Domingo">Domingo</label>  
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="descripcion">descripcion</label>
+          <input type="text" class="form-control" id="descripcion" value="">
+          <input type="hidden" name="" id="revisado" value="No">
+        </div>
+        <br>
+        
+        <input type="button" class="btn btn-primary pull-right" id="crear" value="CREAR" >
+        <input type="button" id="cerrar" class="btn btn-danger" value="CERRAR" >
+        </div>
+        
+      </div>
+      
     </form>
 
 
@@ -45,20 +61,39 @@
 
 
           var descripcion = $('#descripcion').val();
+          var revisado = $('#revisado').val();
           t = document.getElementById('hora').value
           h = t.substr(0,2);
-          ms = t.substr(2)
-          ampm = ((h%12+12*(h%12==0))+ms, h >= 12 ? 'PM' : 'AM')
-          hora = t+':00 '+ampm
+          m = t.substr(3,4);
 
-          $queryString = "INSERT INTO recordatorios (hora, dia,descripcion) VALUES ('"+hora+"', '"+favorite.join(", ")+"','"+descripcion+"')";
-          connection.query($queryString, (err, rows,fields)=>{
-            if (err) {
-              return console.log("hubo un error",err);
-            }
-            self.close()
-          });
+          
+          var sufijo = 'AM';
+          if(h > 12) {
+            h = h - 12;
+            sufijo = 'PM';
+          }
 
+
+          var hora = h+':'+m+' '+sufijo
+
+          for (var i = 0; i < favorite.length; i++) {
+            $queryString = "INSERT INTO recordatorios (hora, dia,descripcion,realizado) VALUES ('"+hora+"', '"+favorite[i]+"','"+descripcion+"','"+revisado+"')";
+            connection.query($queryString, (err, rows,fields)=>{
+              if (err) {
+                return console.log("hubo un error",err);
+              }else{
+                alert('Registro creado!!');
+                window.close()
+                window.location.reload('index.html');
+                return console.log('estuvo bien');
+
+              }
+            
+            });
+
+          }
+
+            
           connection.end(() => {
             console.log("conexion cerrada");
           });
@@ -67,6 +102,12 @@
 
       });
 
+    </script>
+
+    <script type="text/javascript">
+      $('#cerrar').on('click',function(){
+        window.close();
+      });
     </script>
 
   </body>

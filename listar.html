@@ -7,8 +7,7 @@
     <script src="node_modules/datatables/jquery.dataTables.min.js" charset="utf-8"></script>
     <script src="node_modules/datatables/jquery.dataTables.min.js" charset="utf-8"></script>
     <script src="node_modules/datatables/dataTables.bootstrap.min.js" charset="utf-8"></script>
-
-
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js" charset="utf-8"></script>
     <script type="text/javascript">
     $(function () {
       $('table.display').dataTable( {
@@ -60,10 +59,58 @@
                   <th>Hora</th>
                   <th>Día</th>
                   <th>Descripción</th>
+                  <th>Realizado</th>
+                  <th>Editar</th>
                 </tr>
               </thead>
               <tbody>
                   <tr>
+
+                    <div class="modal fade" id="modal" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Crear diseño detallado</h4>
+                          </div>
+                          <div class="modal-body">
+                            <form action="" method="post">
+                              <div class="row">
+                                <div class="col-md-12 well">
+                                  <div class="form-group">
+                                  <label for="hora">hora</label>
+                                  <input type="time" class="form-control" id="hora" value="">  
+                                </div>
+                                <br>
+                                <div class="form-group">        
+                                  <label for="dia">dia</label>
+                                  <br>
+                                  <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Lunes">Lunes</label>
+                                  <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Martes">Martes</label>
+                                  <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Miercoles">Miercoles</label>
+                                  <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Jueves">Jueves</label>
+                                  <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Viernes">Viernes</label>
+                                  <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Sabado">Sabado</label>
+                                  <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Domingo">Domingo</label>  
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                  <label for="descripcion">descripcion</label>
+                                  <input type="text" class="form-control" id="descripcion" value="">
+                                  <input type="hidden" name="" id="revisado" value="No">
+                                </div>
+                                <br>
+                                
+                                <input type="button" class="btn btn-primary pull-right" id="crear" value="CREAR" >
+                                <input type="button" id="cerrar" class="btn btn-danger" value="CERRAR" >
+                                </div>                                
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                   </tr>
 
               </tbody>
@@ -80,6 +127,7 @@
     <script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
     <script>require('./js/index.js')</script>
     <script>
+      
 
       $.getScript('./js/conexion.js', function(){
         $queryString = "SELECT * FROM recordatorios;";
@@ -91,26 +139,71 @@
           var obj = JSON.parse(datos);
 
           for(i=0;i<obj.length;i++){
-            $('#tabla tr:last').after('<tr><td>'+obj[i]['hora']+'</td><td>'+obj[i]['dia']+'</td><td>'+obj[i]['descripcion']+'</td></tr>');
+            $('#tabla tr:last').after('<tr><td>'+obj[i]['hora']+'</td><td>'+obj[i]['dia']+'</td><td>'+obj[i]['descripcion']+'</td><td>'+obj[i]['realizado']+'</td><td><button id="'+obj[i]['id']+'" class="editars" data-toggle="modal" data-target="#modal"><i class="glyphicon glyphicon-pencil"></i></button><button id="'+obj[i]['id']+'" class="eliminar" ><i class="glyphicon glyphicon-minus-sign"></i></td></tr>');
+
           }
         });
 
         connection.end(() => {
           console.log("conexion cerrada");
         });
+
       });
 
+       // $(document).on("click",".editars",function( event ) {
+
+       //   var ide = $(this).attr('id');
+
+       //   $.getScript('./js/conexion.js', function(){
+
+       //      $queryString = "SELECT * FROM recordatorios WHERE id ='"+ide+"'";
+       //      connection.query($queryString, (err, rows,fields)=>{
+       //        if (err) {
+       //          return console.log("hubo un error",err);
+       //        }
+       //        var datos = JSON.stringify(rows);
+       //        var obj = JSON.parse(datos);
+
+
+       //        $('#hora').val(obj[0]['hora']);
+              
+
+       //      });
+
+       //   });
+       //   // alert(ide);
+       // });
+
+        $(document).on("click",".eliminar",function( event ) {
+
+         var ide = $(this).attr('id');
+
+         $.getScript('./js/conexion.js', function(){
+
+            $queryString = "DELETE FROM recordatorios WHERE id ='"+ide+"'";
+            // connection.query($queryString, (err, rows,fields)=>{
+            //   if (err) {
+            //     return console.log("hubo un error",err);
+            //   }else{
+            //     return 'registro eliminado';
+            //   }
+              
+
+            // }); 
+            connection.query($queryString, function (err, result) {
+              if (err) throw err;
+              console.log("Number of records deleted: " + result.affectedRows);
+            });  
+                    
+            location.reload();
+         });
+
+         // alert(ide);
+       });
+
     </script>
 
-    <script type="text/javascript">
-      const remote = require('electron').remote
-      const main = remote.require('./main.js')
 
-      var agregar=document.getElementById('a')
 
-      agregar.addEventListener('click', () => {
-        main.openWindow()
-      })
-    </script>
   </body>
 </html>

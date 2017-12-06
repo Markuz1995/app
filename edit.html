@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">    	
+</head>
+<body>
+	<form class="" action="" method="">
+      <div class="row">
+        <div class="col-md-12 well">
+          <div class="form-group">
+          <label for="hora">hora</label>
+          <input type="time" class="form-control" id="hora" value="">  
+        </div>
+        <br>
+        <div class="form-group">        
+          <label for="dia">dia</label>
+          <br>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Lunes">Lunes</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Martes">Martes</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Miercoles">Miercoles</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Jueves">Jueves</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Viernes">Viernes</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Sabado">Sabado</label>
+          <label class="checkbox-inline"><input type="checkbox" id="dia" name="dia" value="Domingo">Domingo</label>  
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="descripcion">descripcion</label>
+          <input type="text" class="form-control" id="descripcion" value="">
+          <input type="hidden" name="" id="revisado" value="No">
+        </div>
+        <br>
+        
+        <input type="button" class="btn btn-primary pull-right" id="crear" value="CREAR" >
+        <input type="button" id="cerrar" class="btn btn-danger" value="CERRAR" >
+        </div>
+        
+      </div>
+      
+    </form>
+
+    <script type="text/javascript">
+    	
+    	$.getScript('./js/conexion.js', function()
+        {});
+
+    </script>
+</body>
+</html>

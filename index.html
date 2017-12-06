@@ -6,8 +6,16 @@
     <title></title>
   </head>
   <body>
-    <button type="button" class="btn btn-primary" name="button" id="crear">Crear recordatrio</button>
-    <button type="button" class="btn btn-primary" name="button" id="ver">Ver recordatorios</button>
+    <center>
+      <br>
+      <br>
+      <br>
+      <div class="jumbotron">
+        <button type="button" class="btn btn-primary" name="button" id="crear">Crear recordatorio</button>
+        <button type="button" class="btn btn-primary" name="button" id="ver">Ver recordatorios</button> 
+      </div>       
+    </center>
+    
 
     <script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
     <script type="text/javascript">
@@ -41,20 +49,55 @@
          $queryString = "SELECT * FROM recordatorios WHERE dia ='"+hoy+"';";
 
          console.log($queryString);
+
          connection.query($queryString, (err, rows,fields)=>{
            if (err) {
              return console.log("hubo un error",err);
            }
 
            var datos = JSON.stringify(rows);
-           var obj = JSON.parse(datos);
-           var repe = 1000;
-             setInterval(function(){
 
-               function alerta(dia,hora,descripcion){
-                 var dia = dia;
-                 var hora = hora;
-                 var descripcion = descripcion;
+           var obj = JSON.parse(datos);
+
+           var repe = 1000;
+
+             setInterval(function(){
+               var time = new Date();
+               var time2 = time.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})
+               var tiempo = time2.toString()
+         
+               // console.log(tiempo)
+
+               //  h = tiempo.substr(0,1);
+               //  m = tiempo.substr(2,3);
+               //  min = m.replace(':','');
+               //  sub = tiempo.substr(8,9);
+
+
+                // if (tiempo.substr(0,2) < 10) {
+                  
+                //   hrs = h+':'+min+''+sub
+                  
+
+                // }else{
+                //   h = tiempo.substr(0,2)
+                //   console.log('entroo2')
+                //   hrs = h+''+min+' '+sub
+                // }
+
+                // if (h >= 10) { h}
+                
+                // if (h < 10) {h = '0'+h;}else{h = tiempo.substr(0,2);}
+
+                
+                // console.log(h)
+
+               function alerta(id,dia,hora,descripcion){
+
+                 id = id
+                 dia = dia
+                 hora = hora
+                 descripcion = descripcion
 
                  const notification = notifier.notify('Calendar', {
                    buttons: ['Abrir'],
@@ -65,7 +108,7 @@
                  notification.on('buttonClicked', (text, buttonIndex, options) => {
                    if (text === 'Abrir') {
                      console.log('abrio');
-                     main.openWindow()
+                     main.openWindow3(id)
                      notification.close()
                    } else if(buttonIndex === 1) {
                      //open options.url
@@ -73,24 +116,24 @@
 
                  })
                }
-               for(i=0;i<obj.length;i++){
 
+               for(i=0;i<obj.length;i++){
+                 var id = obj[i]['id'];
                  var dia = obj[i]['dia'];
                  var hora = obj[i]['hora'];
                  var descripcion = obj[i]['descripcion'];
+                 var realizado = obj[i]['realizado'];
 
-                 var time = new Date();
-                 var time2 = time.toLocaleTimeString('en-US', {hour12: true})
-                 var tiempo = time2.toString()
 
-                 if (tiempo === '10:39:00 AM') {
-                   alerta(dia,hora,descripcion)
+                 if (tiempo === hora && realizado == 'No') {
+                   alerta(id,dia,hora,descripcion)
+                   console.log('entroo')
                  }else{
-
+                   console.log(tiempo+' = '+hora)
                  }
                }
 
-             } , 1000);
+             } , 40000);
 
 
           // Just title
