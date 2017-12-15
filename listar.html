@@ -53,14 +53,18 @@
         <div class="col-md-12 well">
           <br>
           <div class="box-body">
-            <table id="tabla" class="table table-bordered table-striped">
+            <button type="button" id="excel" class="btn btn-success">Descargar Excel</button> 
+            <br>
+            <br>
+            <div id="tablex">
+              <table id="tabla" class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>Hora</th>
                   <th>Día</th>
                   <th>Descripción</th>
                   <th>Realizado</th>
-                  <th>Editar</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -115,6 +119,7 @@
 
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>
@@ -126,6 +131,7 @@
     ********************************************************************************************** -->
     <script>window.$ = window.jQuery = require('./js/jquery-3.2.1.min.js');</script>
     <script>require('./js/index.js')</script>
+    <script src="./js/jquery.table2excel.js"  charset="utf-8"></script>
     <script>
       
 
@@ -139,7 +145,7 @@
           var obj = JSON.parse(datos);
 
           for(i=0;i<obj.length;i++){
-            $('#tabla tr:last').after('<tr><td>'+obj[i]['hora']+'</td><td>'+obj[i]['dia']+'</td><td>'+obj[i]['descripcion']+'</td><td>'+obj[i]['realizado']+'</td><td><button id="'+obj[i]['id']+'" class="editars" data-toggle="modal" data-target="#modal"><i class="glyphicon glyphicon-pencil"></i></button><button id="'+obj[i]['id']+'" class="eliminar" ><i class="glyphicon glyphicon-minus-sign"></i></td></tr>');
+            $('#tabla tr:last').after('<tr><td>'+obj[i]['hora']+'</td><td>'+obj[i]['dia']+'</td><td>'+obj[i]['descripcion']+'</td><td>'+obj[i]['realizado']+'</td><td><button id="'+obj[i]['id']+'" class="eliminar" ><i class="glyphicon glyphicon-minus-sign"></i></td></tr>');
 
           }
         });
@@ -150,29 +156,6 @@
 
       });
 
-       // $(document).on("click",".editars",function( event ) {
-
-       //   var ide = $(this).attr('id');
-
-       //   $.getScript('./js/conexion.js', function(){
-
-       //      $queryString = "SELECT * FROM recordatorios WHERE id ='"+ide+"'";
-       //      connection.query($queryString, (err, rows,fields)=>{
-       //        if (err) {
-       //          return console.log("hubo un error",err);
-       //        }
-       //        var datos = JSON.stringify(rows);
-       //        var obj = JSON.parse(datos);
-
-
-       //        $('#hora').val(obj[0]['hora']);
-              
-
-       //      });
-
-       //   });
-       //   // alert(ide);
-       // });
 
         $(document).on("click",".eliminar",function( event ) {
 
@@ -181,25 +164,27 @@
          $.getScript('./js/conexion.js', function(){
 
             $queryString = "DELETE FROM recordatorios WHERE id ='"+ide+"'";
-            // connection.query($queryString, (err, rows,fields)=>{
-            //   if (err) {
-            //     return console.log("hubo un error",err);
-            //   }else{
-            //     return 'registro eliminado';
-            //   }
-              
 
-            // }); 
             connection.query($queryString, function (err, result) {
               if (err) throw err;
               console.log("Number of records deleted: " + result.affectedRows);
             });  
-                    
+
             location.reload();
          });
 
          // alert(ide);
        });
+
+       $(function(){
+        $('#excel').on('click',function(){
+          $('#tabla').table2excel();
+        });
+       })
+       // $('#excel').on("click",function(e){
+       //    window.open('data:application/vnd.ms-excel,'+document.documentElement.innerHTML);
+       //    e.preventDefault();
+       // });
 
     </script>
 

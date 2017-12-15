@@ -13,6 +13,7 @@
       <div class="jumbotron">
         <button type="button" class="btn btn-primary" name="button" id="crear">Crear recordatorio</button>
         <button type="button" class="btn btn-primary" name="button" id="ver">Ver recordatorios</button> 
+        <button type="button" class="btn btn-primary" name="button" id="recargar">Recargar pagina</button> 
       </div>       
     </center>
     
@@ -147,6 +148,9 @@
          });
        });
 
+       $('#recargar').on('click',function(){
+         window.location.reload();
+       });
     </script>
   </body>
 </html>
